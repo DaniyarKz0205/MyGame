@@ -40,11 +40,13 @@ const click = (index: number) => {
     if (winner === "X" || winner === "O") {
         statusText.textContent = `Player ${winner} wins!`;
         gameOver = true;
+        alert(`Player ${winner} wins!`)
         saveGameState();
         return;
     } else if (winner === "Draw") {
         statusText.textContent = "Its a Draw!";
         gameOver = true;
+        alert("It's a Draw!");
         saveGameState();
         return;
     }
