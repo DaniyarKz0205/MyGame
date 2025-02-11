@@ -6,7 +6,7 @@ const cells = Array.from(document.getElementsByClassName("cell") as HTMLCollecti
 
 let currentPlayer: "X" | "O" = "X"
 let gameBoard: (string | null)[] = Array(9).fill(null);
-
+let gameOver = false;
 
 cells.forEach((cell, index) => {
     cell.addEventListener("mouseenter", () => {
@@ -31,7 +31,7 @@ cells.forEach((cell, index) => {
 
 
 const click = (index: number) => {
-    if (gameBoard[index] !== null) return;
+    if (gameOver || gameBoard[index] !== null) return;
 
     gameBoard[index] = currentPlayer;
     cells[index].textContent = currentPlayer;
@@ -39,10 +39,12 @@ const click = (index: number) => {
     const winner = playerWinner();
     if (winner === "X" || winner === "O") {
         statusText.textContent = `Player ${winner} wins!`;
+        gameOver = true;
         saveGameState();
         return;
     } else if (winner === "Draw") {
         statusText.textContent = "Its a Draw!";
+        gameOver = true;
         saveGameState();
         return;
     }
@@ -63,6 +65,7 @@ resetButton.addEventListener("click", () => {
 
     currentPlayer = "X";
     statusText.textContent = "Player X turn";
+    gameOver = false;
 
     localStorage.removeItem("tictactoe_board");
     localStorage.removeItem("tictactoe_player");
